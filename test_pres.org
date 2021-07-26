@@ -1,0 +1,91 @@
+#+HTML_HEAD: <style type="text/css"> img {width: 50%} img[alt=bitcoin] {width: 20%}</style>
+
+* Rust
+
+** Sommaire
+
+**** Introduction
+**** getting Started
+**** Basic
+
+* Introduction
+
+** Features
+
+- High-level ergonomics
+- Low-level control
+
+** High-level ergonomics
+- pattern matching
+
+**  Low-level control
+
+- pointers
+
+** Comparison
+
+|              | "ancestors" (pick 2) | Rust (pick 4) |
+|--------------+----------------------+---------------|
+| safety       | ?                    | X             |
+| productivity | ?                    | X             |
+| speed        | X                    | X             |
+| ergonomics   | ?                    | X             |
+
+** Bitcoin crash
+
+#+ATTR_HTML: :alt bitcoin
+[[file:9rqkaqypt3271.jpg][file:/media/PNYProElite/etudes/alyra/veille_rust/9rqkaqypt3271.jpg]]
+
+
+* Getting Started
+
+** 2. Hello world
+
+hello world
+
+#+begin_src rust
+  fn main() {
+      println!("Hello, world!");
+  }
+#+end_src
+
+Fonction main
+
+
+** 3. Hello, cargo
+
+hello cargo
+
+
+* Programming Guessing a name
+
+* Common programming concepts
+
+** Variables and mutability
+
+#+begin_src rust
+  fn main() {
+      let mut x = 5;
+      println!("The value of x is: {}", x);
+      x = 6;
+      println!("The value of x is: {}", x);
+  }
+#+end_src
+
+* Test 2
+
+** Data types
+
+test data types
+
+** Functions
+
+test functions
+
+** Comments
+
+test comments
+
+** Control Flow
+
+test control flow
