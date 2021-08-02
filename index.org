@@ -602,8 +602,8 @@ the data will not go out of scope before the reference to the data does.
 
 ** Coreutils / Findutils
 
-https://github.com/uutils/coreutils
-https://github.com/uutils/findutils
+- https://github.com/uutils/coreutils
+- https://github.com/uutils/findutils
 
 ** exa
 
@@ -689,7 +689,7 @@ DVCS  (distributed version control system) based on a sound theory of patches.
 
 ** Scryer Prolog
 
-[[https://github.com/mthom/scryer-prolog][GitHub - mthom/scryer-prolog]]
+- [[https://github.com/mthom/scryer-prolog][GitHub - mthom/scryer-prolog]]
 A modern Prolog implementation written mostly in Rust. 
 
 ** Redox OS
@@ -730,10 +730,7 @@ contract GuestBook:
 - https://hyper.rs/
 - [[https://github.com/hyperium/hyper][GitHub - hyperium/hyper: An HTTP library for Rust]]
 
-
-** Http
-
-** Maltimedia
+** Multimedia
 
 - [[https://github.com/xiph/rav1e][GitHub - xiph/rav1e: The fastest and safest AV1 encoder.]]
 - https://rustav.org/
@@ -750,8 +747,8 @@ enabling deployment on the web for client and server applications.
 
 ** Rust and WebAssembly
 
-[[https://rustwasm.github.io/book/][Introduction - Rust and WebAssembly]]
-[[https://www.youtube.com/watch?v=nvLw_XKlZaU][InfoQ TechTalk (yt)]]
+- [[https://rustwasm.github.io/book/][Introduction - Rust and WebAssembly]]
+- [[https://www.youtube.com/watch?v=nvLw_XKlZaU][InfoQ TechTalk (yt)]]
 
 * Improvement of the language
 
