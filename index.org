@@ -1,17 +1,28 @@
-#+HTML_HEAD: <style type="text/css"> img {width: 50%} img[alt=bitcoin] {width: 20%}</style>
+#+author:
+#+options: toc:nil num:nil
+#+options: date:nil timestamp:nil
+#+title: Rust : a gentle introduction
+#+REVEAL_THEME: black
 
-# #+title: Rust
-#+author: 
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 
-* Rust : a gentle introduction
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="./css/slides.css" />
+# #+HTML_HEAD: <style type="text/css"> img {width: 100%} img[alt=bitcoin] {width: 50%}</style>
 
-** Sommaire
+# #+HTML_HEAD: <style type="text/css"> img {width: 50%} img[alt=bitcoin] {width: 20%}</style>
+
+#+HTML_HEAD: <style type="text/css"> img {width: 50%} img[alt=grex] {width: 50%}</style>
+
+* Sommaire
 
 **** Introduction
 **** Getting Started
 **** Common programming concepts
 **** Ownership
 **** Live
+**** WebAssembly
+**** Improvement of the language
+**** Resources
 
 * Introduction
 
@@ -21,11 +32,18 @@
 - Low-level control
 
 ** High-level ergonomics
+
 - pattern matching
+- macros
+- high quality error reporting message
+- packages/dependencies manager
+- iterators
+- closures
 
 **  Low-level control
 
-- pointers
+- pointers / references
+- ownership
 
 ** Comparison
 
@@ -35,11 +53,6 @@
 | productivity | ?                    | X             |
 | speed        | X                    | X             |
 | ergonomics   | ?                    | X             |
-
-# ** Bitcoin crash
-
-#+ATTR_HTML: :alt bitcoin
-# [[file:9rqkaqypt3271.jpg][file:/media/PNYProElite/etudes/alyra/veille_rust/9rqkaqypt3271.jpg]]
 
 
 * Getting Started
@@ -53,8 +66,6 @@
 #+end_src
 
 Fonction main
-
-# * Programming Guessing a name
 
 * Common programming concepts
 
@@ -109,14 +120,14 @@ immutable by default.
 Fixed length
 
 #+begin_src rust
-  let a: [i32; 5] = [1, 2, 3, 4, 5];
+  let a: [i32; 5] = [-1, 2, 4, -3, -5];
 #+end_src
 
 Accessing elements
 
 #+begin_src rust
   fn main() {
-      let a = [1, 2, 3, 4, 5];
+      let a = [-1, 2, 4, -3, -5];
   
       let first = a[0];
       let second = a[1];
@@ -177,6 +188,8 @@ Only one syntax
       println!("The value of number is: {}", number);
   }
 #+end_src
+
+if is an expression, not just a statement
 
 ** Classic while
 
@@ -551,6 +564,12 @@ does not compile
 
 compiles
 
+#+begin_notes
+La notion de scope est un petit peu altérée ici.
+Le compilateur rustc est assez malin pour voir que
+r1 et r2 ne sont plus utilisés après le println!
+#+end_notes
+
 ** Dangling references
 
 #+begin_src rust
@@ -565,18 +584,34 @@ compiles
   }
 #+end_src
 
+#+begin_notes
+In Rust, the compiler guarantees that references will never be dangling references:
+if you have a reference to some data,
+the compiler will ensure that
+the data will not go out of scope before the reference to the data does.
+#+end_notes
+
 ** The Rules of References
 
 - At any given time, you can have either one mutable reference or any number of immutable references.
 - References must always be valid.
 
-** Slice type
+# ** Slice type
 
 * Live
 
+** Coreutils / Findutils
+
+https://github.com/uutils/coreutils
+https://github.com/uutils/findutils
+
 ** exa
 
+[[https://github.com/ogham/exa][GitHub - ogham/exa: A modern replacement for ‘ls’.]]
+
 ** bat
+
+[[https://github.com/sharkdp/bat][GitHub - sharkdp/bat: A cat(1) clone with wings.]]
 
 #+begin_src shell
   bat README.org
@@ -584,11 +619,15 @@ compiles
 
 ** fd
 
+[[https://github.com/sharkdp/fd][GitHub - sharkdp/fd: A simple, fast and user-friendly alternative to 'find']]
+
 #+begin_src shell
   fd README.org
 #+end_src
 
 ** sd
+
+[[https://github.com/chmln/sd][GitHub - chmln/sd: Intuitive find & replace CLI (sed alternative)]]
 
 find and replace
 faster than sed
@@ -599,11 +638,19 @@ faster than sed
 
 ** ripgrep
 
+- [[https://github.com/BurntSushi/ripgrep][GitHub - BurntSushi/ripgrep]]
+- [[https://blog.burntsushi.net/ripgrep/][ripgrep is faster than *]]
+
 grep (global regular expression print) -> ack -> ag -> pt -> rg
 
 #+begin_src shell
   rg else
 #+end_src
+
+** grex
+
+#+ATTR_HTML: :src images/grex.jpg :alt grex
+[[file:images/grex.jpg][file:/media/PNYProElite/etudes/alyra/veille_rust/images/grex.jpg]]
 
 ** grex
 
@@ -624,16 +671,72 @@ grep (global regular expression print) -> ack -> ag -> pt -> rg
   sys | get disks | select device total | to json
 #+end_src
 
+** Alacritty
+
+[[https://github.com/alacritty/alacritty][GitHub - alacritty: cross-platform, OpenGL terminal emulator]]
+
+** Tree-sitter
+
+- [[https://tree-sitter.github.io/tree-sitter/][Tree-sitter｜Introduction]]
+- [[https://github.com/tree-sitter/tree-sitter][Github]]
+- [[https://www.youtube.com/watch?v=Jes3bD6P0To][Strange Loop talk]]
+
 ** Pijul
 
 https://pijul.org/
 
 DVCS  (distributed version control system) based on a sound theory of patches.
 
+** Scryer Prolog
+
+[[https://github.com/mthom/scryer-prolog][GitHub - mthom/scryer-prolog]]
+A modern Prolog implementation written mostly in Rust. 
+
 ** Redox OS
 
 [[https://www.redox-os.org/][Redox - Your Next(Gen) OS]]
 
+** Fe
+
+[[https://github.com/ethereum/fe][GitHub - fe: smart contract language for Ethereum]]
+
+Inspired by python and rust, made in rust.
+
+** Fe
+
+#+begin_src fe
+type BookMsg = bytes[100]
+
+contract GuestBook:
+    pub guest_book: Map<address, BookMsg>
+
+    event Signed:
+        book_msg: BookMsg
+
+    pub def sign(book_msg: BookMsg):
+        self.guest_book[msg.sender] = book_msg
+
+        emit Signed(book_msg=book_msg)
+
+    pub def get_msg(addr: address) -> BookMsg:
+        return self.guest_book[addr].to_mem()
+#+end_src
+
+** Web
+
+- [[https://actix.rs/][Actix Web]]
+- [[https://github.com/actix/actix][GitHub - actix/actix: Actor framework for Rust]]
+
+- https://hyper.rs/
+- [[https://github.com/hyperium/hyper][GitHub - hyperium/hyper: An HTTP library for Rust]]
+
+
+** Http
+
+** Maltimedia
+
+- [[https://github.com/xiph/rav1e][GitHub - xiph/rav1e: The fastest and safest AV1 encoder.]]
+- https://rustav.org/
 
 * WebAssembly
 
@@ -648,4 +751,21 @@ enabling deployment on the web for client and server applications.
 ** Rust and WebAssembly
 
 [[https://rustwasm.github.io/book/][Introduction - Rust and WebAssembly]]
+[[https://www.youtube.com/watch?v=nvLw_XKlZaU][InfoQ TechTalk (yt)]]
 
+* Improvement of the language
+
+[[https://rust-lang.github.io/rfcs/][Introduction - The Rust RFC Book]]
+
+* Resources
+
+- [[https://doc.rust-lang.org/book/][The Rust Programming Language - Rust Book]]
+- [[https://doc.rust-lang.org/stable/rust-by-example/][Rust By Example]]
+- [[https://github.com/rust-lang/rustlings/][GitHub - rust-lang/rustlings]]
+- [[https://exercism.io/tracks/rust][Rust | Exercism]]
+- [[https://chrismorgan.info/blog/rust-ownership-the-hard-way/][Rust ownership, the hard way - an article by Chris Morgan]]
+- [[https://zaiste.net/posts/shell-commands-rust/][Rewritten in Rust: Modern Alternatives of Command-Line Tools]]
+- [[https://github.com/TaKO8Ki/awesome-alternatives-in-rust][GitHub - TaKO8Ki/awesome-alternatives-in-rust]]
+- [[https://github.com/rust-unofficial/awesome-rust][GitHub - rust-unofficial/awesome-rust]]
+
+Questions ?
