@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Rust : a gentle introduction</title>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
+<link rel="stylesheet" type="text/css" href="./css/slides.css" />
+<style type="text/css"> img {width: 50%} img[alt=grex] {width: 50%}</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Rust : a gentle introduction</h1>
+</section>
+
+<section>
+<section id="slide-org0253a7e">
+<h2 id="org0253a7e">Sommaire</h2>
+<div class="outline-text-2" id="text-org0253a7e">
+</div>
+<ul class="org-ul">
+<li><a id="org0373748"></a>Introduction<br /></li>
+<li><a id="orgca8385f"></a>Getting Started<br /></li>
+<li><a id="org7df272f"></a>Common programming concepts<br /></li>
+<li><a id="org8060760"></a>Ownership<br /></li>
+<li><a id="orgf3839e4"></a>Live<br /></li>
+<li><a id="org6f1d803"></a>WebAssembly<br /></li>
+<li><a id="org77ec990"></a>Improvement of the language<br /></li>
+<li><a id="orgc4afad6"></a>Resources<br /></li>
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org83b22e5">
+<h2 id="org83b22e5">Introduction</h2>
+<div class="outline-text-2" id="text-org83b22e5">
+</div>
+</section>
+<section id="slide-org0c65aba">
+<h3 id="org0c65aba">Features</h3>
+<ul>
+<li>High-level ergonomics</li>
+<li>Low-level control</li>
+
+</ul>
+
+</section>
+<section id="slide-org427ec00">
+<h3 id="org427ec00">High-level ergonomics</h3>
+<ul>
+<li>pattern matching</li>
+<li>macros</li>
+<li>high quality error reporting message</li>
+<li>packages/dependencies manager</li>
+<li>iterators</li>
+<li>closures</li>
+
+</ul>
+
+</section>
+<section id="slide-orge139a02">
+<h3 id="orge139a02">Low-level control</h3>
+<ul>
+<li>pointers / references</li>
+<li>ownership</li>
+
+</ul>
+
+</section>
+<section id="slide-org5516b20">
+<h3 id="org5516b20">Comparison</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">"ancestors" (pick 2)</th>
+<th scope="col" class="org-left">Rust (pick 4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">safety</td>
+<td class="org-left">?</td>
+<td class="org-left">X</td>
+</tr>
+
+<tr>
+<td class="org-left">productivity</td>
+<td class="org-left">?</td>
+<td class="org-left">X</td>
+</tr>
+
+<tr>
+<td class="org-left">speed</td>
+<td class="org-left">X</td>
+<td class="org-left">X</td>
+</tr>
+
+<tr>
+<td class="org-left">ergonomics</td>
+<td class="org-left">?</td>
+<td class="org-left">X</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+</section>
+<section>
+<section id="slide-org0f756fb">
+<h2 id="org0f756fb">Getting Started</h2>
+<div class="outline-text-2" id="text-org0f756fb">
+</div>
+</section>
+<section id="slide-org08e71a0">
+<h3 id="org08e71a0">2. Hello world</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"Hello, world!"</span><span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+<p>
+Fonction main
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org38ec4b0">
+<h2 id="org38ec4b0">Common programming concepts</h2>
+<div class="outline-text-2" id="text-org38ec4b0">
+</div>
+</section>
+<section id="slide-org8f99945">
+<h3 id="org8f99945">Variables and mutability</h3>
+<p>
+immutable by default.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #e68183;">mut</span> <span style="color: #87c095; font-style: italic;">spaces</span> = <span style="color: #87af87;">"   "</span>;
+    spaces = spaces.len<span style="color: #d9bb80;">()</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">spaces</span> = <span style="color: #87af87;">"   "</span>;
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">spaces</span> = spaces.len<span style="color: #d9bb80;">()</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org5000c20">
+<h3 id="org5000c20">Data types</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">guess</span>: <span style="color: #d9bb80;">u32</span> = <span style="color: #87af87;">"42"</span>.parse<span style="color: #e68183;">()</span>.expect<span style="color: #e68183;">(</span><span style="color: #87af87;">"Not a number!"</span><span style="color: #e68183;">)</span>;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org26776f5">
+<h3 id="org26776f5"></h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Length</th>
+<th scope="col" class="org-left">Signed</th>
+<th scope="col" class="org-left">Unsigned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">8-bit</td>
+<td class="org-left">i8</td>
+<td class="org-left">u8</td>
+</tr>
+
+<tr>
+<td class="org-left">16-bit</td>
+<td class="org-left">i16</td>
+<td class="org-left">u16</td>
+</tr>
+
+<tr>
+<td class="org-left">32-bit</td>
+<td class="org-left">i32</td>
+<td class="org-left">u32</td>
+</tr>
+
+<tr>
+<td class="org-left">64-bit</td>
+<td class="org-left">i64</td>
+<td class="org-left">u64</td>
+</tr>
+
+<tr>
+<td class="org-left">128-bit</td>
+<td class="org-left">i128</td>
+<td class="org-left">u128</td>
+</tr>
+
+<tr>
+<td class="org-left">arch</td>
+<td class="org-left">isize</td>
+<td class="org-left">usize</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org4827065">
+<h3 id="org4827065">Destructuring on tuple</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">tup</span>: <span style="color: #d9bb80;">(</span><span style="color: #d9bb80;">i32</span>, <span style="color: #d9bb80;">f64</span>, <span style="color: #d9bb80;">u8</span><span style="color: #d9bb80;">)</span> = <span style="color: #d9bb80;">(</span>500, 6.4, 1<span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e68183;">let</span> <span style="color: #d9bb80;">(</span>x, y, z<span style="color: #d9bb80;">)</span> = tup;
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"The value of y is: </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, y<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgbbf03c9">
+<h3 id="orgbbf03c9">Arrays</h3>
+<p>
+Fixed length
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">a</span>: <span style="color: #e68183;">[</span><span style="color: #d9bb80;">i32</span>; 5<span style="color: #e68183;">]</span> = <span style="color: #e68183;">[</span>-1, 2, 4, -3, -5<span style="color: #e68183;">]</span>;
+</code></pre>
+</div>
+
+<p>
+Accessing elements
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">a</span> = <span style="color: #d9bb80;">[</span>-1, 2, 4, -3, -5<span style="color: #d9bb80;">]</span>;
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">first</span> = a<span style="color: #d9bb80;">[</span>0<span style="color: #d9bb80;">]</span>;
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">second</span> = a<span style="color: #d9bb80;">[</span>1<span style="color: #d9bb80;">]</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgdbecad4">
+<h3 id="orgdbecad4">Functions</h3>
+<p>
+optional return keyword
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">x</span> = plus_one<span style="color: #d9bb80;">(</span>5<span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"The value of x is: </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, x<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">plus_one</span><span style="color: #e68183;">(</span><span style="color: #87c095; font-style: italic;">x</span>: <span style="color: #d9bb80;">i32</span><span style="color: #e68183;">)</span> -&gt; <span style="color: #d9bb80;">i32</span> <span style="color: #e68183;">{</span>
+    x + 1
+<span style="color: #e68183;">}</span>  
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org90ac507">
+<h3 id="org90ac507">Comments</h3>
+<p>
+Only one syntax
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">hello, world</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org08a17a3">
+<h3 id="org08a17a3">Control Flow</h3>
+
+</section>
+<section id="slide-org56c539e">
+<h3 id="org56c539e">If / Else</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">number</span> = 6;
+
+    <span style="color: #e68183;">if</span> number % 4 == 0 <span style="color: #d9bb80;">{</span>
+        <span style="color: #e39b7b;">println!</span><span style="color: #87c095;">(</span><span style="color: #87af87;">"number is divisible by 4"</span><span style="color: #87c095;">)</span>;
+    <span style="color: #d9bb80;">}</span> <span style="color: #e68183;">else</span> <span style="color: #e68183;">if</span> number % 3 == 0 <span style="color: #d9bb80;">{</span>
+        <span style="color: #e39b7b;">println!</span><span style="color: #87c095;">(</span><span style="color: #87af87;">"number is divisible by 3"</span><span style="color: #87c095;">)</span>;
+    <span style="color: #d9bb80;">}</span> <span style="color: #e68183;">else</span> <span style="color: #e68183;">if</span> number % 2 == 0 <span style="color: #d9bb80;">{</span>
+        <span style="color: #e39b7b;">println!</span><span style="color: #87c095;">(</span><span style="color: #87af87;">"number is divisible by 2"</span><span style="color: #87c095;">)</span>;
+    <span style="color: #d9bb80;">}</span> <span style="color: #e68183;">else</span> <span style="color: #d9bb80;">{</span>
+        <span style="color: #e39b7b;">println!</span><span style="color: #87c095;">(</span><span style="color: #87af87;">"number is not divisible by 4, 3, or 2"</span><span style="color: #87c095;">)</span>;
+    <span style="color: #d9bb80;">}</span>
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgc063c5e">
+<h3 id="orgc063c5e">"Ternary"</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">condition</span> = <span style="color: #e68183;">true</span>;
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">number</span> = <span style="color: #e68183;">if</span> condition <span style="color: #d9bb80;">{</span> 5 <span style="color: #d9bb80;">}</span> <span style="color: #e68183;">else</span> <span style="color: #d9bb80;">{</span> 6 <span style="color: #d9bb80;">}</span>;
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"The value of number is: </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, number<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+<p>
+if is an expression, not just a statement
+</p>
+
+</section>
+<section id="slide-org5b0e0eb">
+<h3 id="org5b0e0eb">Classic while</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #e68183;">mut</span> <span style="color: #87c095; font-style: italic;">number</span> = 3;
+
+    <span style="color: #e68183;">while</span> number != 0 <span style="color: #d9bb80;">{</span>
+        <span style="color: #e39b7b;">println!</span><span style="color: #87c095;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">!"</span>, number<span style="color: #87c095;">)</span>;
+
+        number -= 1;
+    <span style="color: #d9bb80;">}</span>
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"LIFTOFF!!!"</span><span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org9548781">
+<h3 id="org9548781">For iter()</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">a</span> = <span style="color: #d9bb80;">[</span>10, 20, 30, 40, 50<span style="color: #d9bb80;">]</span>;
+
+    <span style="color: #e68183;">for</span> <span style="color: #87c095; font-style: italic;">element</span> <span style="color: #e68183;">in</span> a.iter<span style="color: #d9bb80;">()</span> <span style="color: #d9bb80;">{</span>
+        <span style="color: #e39b7b;">println!</span><span style="color: #87c095;">(</span><span style="color: #87af87;">"the value is: </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, element<span style="color: #87c095;">)</span>;
+    <span style="color: #d9bb80;">}</span>
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org9f44adb">
+<h3 id="org9f44adb">For range</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">for</span> <span style="color: #87c095; font-style: italic;">number</span> <span style="color: #e68183;">in</span> <span style="color: #d9bb80;">(</span>1..4<span style="color: #d9bb80;">)</span>.rev<span style="color: #d9bb80;">()</span> <span style="color: #d9bb80;">{</span>
+        <span style="color: #e39b7b;">println!</span><span style="color: #87c095;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">!"</span>, number<span style="color: #87c095;">)</span>;
+    <span style="color: #d9bb80;">}</span>
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"LIFTOFF!!!"</span><span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>  
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org178d0b2">
+<h3 id="org178d0b2">Infinite loop</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">loop</span> <span style="color: #d9bb80;">{</span>
+        <span style="color: #e39b7b;">println!</span><span style="color: #87c095;">(</span><span style="color: #87af87;">"again!"</span><span style="color: #87c095;">)</span>;
+    <span style="color: #d9bb80;">}</span>
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org7b2985f">
+<h3 id="org7b2985f">break returns value</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #e68183;">mut</span> <span style="color: #87c095; font-style: italic;">counter</span> = 0;
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">result</span> = <span style="color: #e68183;">loop</span> <span style="color: #d9bb80;">{</span>
+        counter += 1;
+        <span style="color: #e68183;">if</span> counter == 10 <span style="color: #87c095;">{</span>
+            <span style="color: #e68183;">break</span> counter * 2;
+        <span style="color: #87c095;">}</span>
+    <span style="color: #d9bb80;">}</span>;
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"The result is </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, result<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org1d1364c">
+<h2 id="org1d1364c">Ownership</h2>
+<div class="outline-text-2" id="text-org1d1364c">
+</div>
+</section>
+<section id="slide-org924d947">
+<h3 id="org924d947">Ownership rules</h3>
+<ul>
+<li>Each value in Rust has a variable that’s called its owner.</li>
+<li>There can only be one owner at a time.</li>
+<li>When the owner goes out of scope, the value will be dropped.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgde8d454">
+<h3 id="orgde8d454">Scope</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #d9bb80;">{</span>                      <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">s is not valid here, it&#8217;s not yet declared</span>
+        <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #87af87;">"hello"</span>;   <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">s is valid from this point forward</span>
+
+        <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">do stuff with s</span>
+    <span style="color: #d9bb80;">}</span>                      <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">this scope is now over, and s is no longer valid</span>
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org50fe87f">
+<h3 id="org50fe87f">String type</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #e68183;">mut</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    s.push_str<span style="color: #d9bb80;">(</span><span style="color: #87af87;">", world!"</span><span style="color: #d9bb80;">)</span>; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">push_str() appends a literal to a String</span>
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, s<span style="color: #d9bb80;">)</span>; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">This will print `hello, world!`</span>
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org40a1c12">
+<h3 id="org40a1c12">Pointers</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">addr</th>
+<th scope="col" class="org-left">variable name</th>
+<th scope="col" class="org-right">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0x60ff18</td>
+<td class="org-left">a</td>
+<td class="org-right">12</td>
+</tr>
+
+<tr>
+<td class="org-right">0x60ff14</td>
+<td class="org-left">b</td>
+<td class="org-right">7.4</td>
+</tr>
+
+<tr>
+<td class="org-right">…</td>
+<td class="org-left">…</td>
+<td class="org-right">…</td>
+</tr>
+
+<tr>
+<td class="org-right">0x404004</td>
+<td class="org-left">p</td>
+<td class="org-right">0x60ff14</td>
+</tr>
+
+<tr>
+<td class="org-right">…</td>
+<td class="org-left">…</td>
+<td class="org-right">…</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org44ed059">
+<h3 id="org44ed059">Pointers</h3>
+<p>
+*p will return the value of the address 0x60ff14 (the value of b)
+</p>
+
+<p>
+&amp; gives the address of the variable
+</p>
+<ul>
+<li>&amp;a =&gt; 0x60ff18</li>
+<li>&amp;b =&gt; 0x60ff14</li>
+<li>&amp;p =&gt; 0x404004</li>
+
+</ul>
+
+</section>
+<section id="slide-orga55c24e">
+<h3 id="orga55c24e">C : Malloc / Free</h3>
+<p>
+En C
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-c" ><code trim><span style="color: #e39b7b;">int</span> <span style="color: #e68183;">*</span> <span style="color: #87c095; font-style: italic;">entier</span><span style="color: #e6d6ac; background-color: #2a2426;">;</span>
+
+<span style="color: #87c095; font-style: italic;">entier</span> <span style="color: #e68183;">=</span> <span style="color: #d9bb80; font-weight: bold;">malloc</span> <span style="color: #e68183; background-color: #2a2426;">(</span><span style="color: #e68183;">sizeof</span><span style="color: #d9bb80; background-color: #2a2426;">(</span><span style="color: #e39b7b;">int</span><span style="color: #d9bb80; background-color: #2a2426;">)</span><span style="color: #e68183; background-color: #2a2426;">)</span><span style="color: #e6d6ac; background-color: #2a2426;">;</span>
+<span style="color: #e68183;">if</span><span style="color: #e68183; background-color: #2a2426;">(</span> entier <span style="color: #e68183;">==</span> <span style="color: #e39b7b;">NULL</span> <span style="color: #e68183; background-color: #2a2426;">)</span> <span style="color: #e68183; background-color: #2a2426;">{</span>
+  <span style="color: #d9bb80; font-weight: bold;">fprintf</span><span style="color: #d9bb80; background-color: #2a2426;">(</span>stderr<span style="color: #e6d6ac; background-color: #2a2426;">,</span><span style="color: #87af87;">"Allocation impossible"</span><span style="color: #d9bb80; background-color: #2a2426;">)</span><span style="color: #e6d6ac; background-color: #2a2426;">;</span>
+ <span style="color: #e68183; background-color: #2a2426;">}</span>
+ <span style="color: #e68183;">else</span> <span style="color: #e68183; background-color: #2a2426;">{</span>
+   <span style="color: #5b5b5b;">/* affectation d'une valeur et affichage */</span>
+   <span style="color: #e68183;">*</span><span style="color: #87c095; font-style: italic;">entier</span> <span style="color: #e68183;">=</span> <span style="color: #d3a0bc;">3</span><span style="color: #e6d6ac; background-color: #2a2426;">;</span>
+   <span style="color: #d9bb80; font-weight: bold;">printf</span><span style="color: #d9bb80; background-color: #2a2426;">(</span><span style="color: #87af87;">"%d"</span><span style="color: #e6d6ac; background-color: #2a2426;">,</span><span style="color: #e68183;">*</span>entier<span style="color: #d9bb80; background-color: #2a2426;">)</span><span style="color: #e6d6ac; background-color: #2a2426;">;</span>
+
+   <span style="color: #5b5b5b;">/* lib&#233;ration */</span>
+   <span style="color: #d9bb80; font-weight: bold;">free</span><span style="color: #d9bb80; background-color: #2a2426;">(</span>entier<span style="color: #d9bb80; background-color: #2a2426;">)</span><span style="color: #e6d6ac; background-color: #2a2426;">;</span>
+   <span style="color: #87c095; font-style: italic;">entier</span> <span style="color: #e68183;">=</span> <span style="color: #e39b7b;">NULL</span><span style="color: #e6d6ac; background-color: #2a2426;">;</span>
+ <span style="color: #e68183; background-color: #2a2426;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org25c4200">
+<h3 id="org25c4200">Variables Data interaction 1</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">x</span> = 5;
+<span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">y</span> = x;
+<span style="color: #e39b7b;">println!</span><span style="color: #e68183;">(</span><span style="color: #87af87;">"x = </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">, y = </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, x, y<span style="color: #e68183;">)</span>;
+</code></pre>
+</div>
+
+<ul>
+<li>la valeur contenue dans y est 5.</li>
+<li>5 est un entier (type simple) dont la taille est fixe et connue à la compilation.</li>
+
+</ul>
+
+</section>
+<section id="slide-org38745d6">
+<h3 id="org38745d6">Variables Data interaction 2 : move</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s1</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #e68183;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #e68183;">)</span>;
+<span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s2</span> = s1;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org8718587">
+<h3 id="org8718587">Variables Data interaction 2 : move</h3>
+
+<div id="org4e84316" class="figure">
+<p><a href="images/string_memory_diagram.svg" src="images/string_memory_diagram.svg"><img src="images/string_memory_diagram.svg" alt="string_memory_diagram.svg" /></a>
+</p>
+</div>
+
+</section>
+<section id="slide-orgad04ca3">
+<h3 id="orgad04ca3">Variables Data interaction 2 : move</h3>
+
+<div id="org952a2be" class="figure">
+<p><a href="images/string_copy_repr.svg" src="images/string_copy_repr.svg"><img src="images/string_copy_repr.svg" alt="string_copy_repr.svg" /></a>
+</p>
+</div>
+
+<p>
+Double free error
+</p>
+
+</section>
+<section id="slide-orgf366f9c">
+<h3 id="orgf366f9c">Variables Data interaction 2 : move</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s1</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s2</span> = s1;
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">, world!"</span>, s1<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org8bdf108">
+<h3 id="org8bdf108">Variables Data interaction 2 : move</h3>
+
+<div id="org75afd3a" class="figure">
+<p><a href="images/string_move_invalidated_ref.svg" src="images/string_move_invalidated_ref.svg"><img src="images/string_move_invalidated_ref.svg" alt="string_move_invalidated_ref.svg" /></a>
+</p>
+</div>
+
+</section>
+<section id="slide-org1e54728">
+<h3 id="org1e54728">Variables Data interaction 2 : clone</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s1</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #e68183;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #e68183;">)</span>;
+<span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s2</span> = s1.clone<span style="color: #e68183;">()</span>;
+
+<span style="color: #e39b7b;">println!</span><span style="color: #e68183;">(</span><span style="color: #87af87;">"s1 = </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">, s2 = </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, s1, s2<span style="color: #e68183;">)</span>;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1d99ef3">
+<h3 id="org1d99ef3">Variables Data interaction 2 : clone</h3>
+
+<div id="orgb60f0d5" class="figure">
+<p><a href="images/string_clone_repr.svg" src="images/string_clone_repr.svg"><img src="images/string_clone_repr.svg" alt="string_clone_repr.svg" /></a>
+</p>
+</div>
+
+</section>
+<section id="slide-org95276e2">
+<h3 id="org95276e2">Functions : taking ownership</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;  <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">s comes into scope</span>
+
+    takes_ownership<span style="color: #d9bb80;">(</span>s<span style="color: #d9bb80;">)</span>;             <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">s's value moves into the function...</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">... and so is no longer valid here</span>
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">x</span> = 5;                      <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">x comes into scope</span>
+
+    makes_copy<span style="color: #d9bb80;">(</span>x<span style="color: #d9bb80;">)</span>;                  <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">x would move into the function,</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">but i32 is Copy, so it's okay to still</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">use x afterward</span>
+
+<span style="color: #e68183;">}</span> <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">Here, x goes out of scope, then s. But because s's value was moved, nothing</span>
+<span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">special happens.</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">takes_ownership</span><span style="color: #e68183;">(</span><span style="color: #87c095; font-style: italic;">some_string</span>: <span style="color: #d9bb80;">String</span><span style="color: #e68183;">)</span> <span style="color: #e68183;">{</span> <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">some_string comes into scope</span>
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, some_string<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span> <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">Here, some_string goes out of scope and `drop` is called. The backing</span>
+<span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">memory is freed.</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">makes_copy</span><span style="color: #e68183;">(</span><span style="color: #87c095; font-style: italic;">some_integer</span>: <span style="color: #d9bb80;">i32</span><span style="color: #e68183;">)</span> <span style="color: #e68183;">{</span> <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">some_integer comes into scope</span>
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, some_integer<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span> <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">Here, some_integer goes out of scope. Nothing special happens.</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgc2f712e">
+<h3 id="orgc2f712e">Functions : giving ownership</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s1</span> = gives_ownership<span style="color: #d9bb80;">()</span>;         <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">gives_ownership moves its return</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">value into s1</span>
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s2</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;     <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">s2 comes into scope</span>
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s3</span> = takes_and_gives_back<span style="color: #d9bb80;">(</span>s2<span style="color: #d9bb80;">)</span>;  <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">s2 is moved into</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">takes_and_gives_back, which also</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">moves its return value into s3</span>
+<span style="color: #e68183;">}</span> <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">Here, s3 goes out of scope and is dropped. s2 goes out of scope but was</span>
+<span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">moved, so nothing happens. s1 goes out of scope and is dropped.</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">gives_ownership</span><span style="color: #e68183;">()</span> -&gt; <span style="color: #d9bb80;">String</span> <span style="color: #e68183;">{</span>             <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">gives_ownership will move its</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">return value into the function</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">that calls it</span>
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">some_string</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">some_string comes into scope</span>
+
+    some_string                              <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">some_string is returned and</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">moves out to the calling</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">function</span>
+<span style="color: #e68183;">}</span>
+
+<span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">takes_and_gives_back will take a String and return one</span>
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">takes_and_gives_back</span><span style="color: #e68183;">(</span><span style="color: #87c095; font-style: italic;">a_string</span>: <span style="color: #d9bb80;">String</span><span style="color: #e68183;">)</span> -&gt; <span style="color: #d9bb80;">String</span> <span style="color: #e68183;">{</span> <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">a_string comes into</span>
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">scope</span>
+
+    a_string  <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">a_string is returned and moves out to the calling function</span>
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1de1cbc">
+<h3 id="org1de1cbc">Functions : tuple ownership</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s1</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e68183;">let</span> <span style="color: #d9bb80;">(</span>s2, len<span style="color: #d9bb80;">)</span> = calculate_length<span style="color: #d9bb80;">(</span>s1<span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"The length of '</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">' is </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">."</span>, s2, len<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">calculate_length</span><span style="color: #e68183;">(</span><span style="color: #87c095; font-style: italic;">s</span>: <span style="color: #d9bb80;">String</span><span style="color: #e68183;">)</span> -&gt; <span style="color: #e68183;">(</span><span style="color: #d9bb80;">String</span>, <span style="color: #d9bb80;">usize</span><span style="color: #e68183;">)</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">length</span> = s.len<span style="color: #d9bb80;">()</span>; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">len() returns the length of a String</span>
+
+    <span style="color: #d9bb80;">(</span>s, length<span style="color: #d9bb80;">)</span>
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org17303fe">
+<h3 id="org17303fe">References / borrowing</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s1</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">len</span> = calculate_length<span style="color: #d9bb80;">(</span>&amp;s1<span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"The length of '</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">' is </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">."</span>, s1, len<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">calculate_length</span><span style="color: #e68183;">(</span><span style="color: #87c095; font-style: italic;">s</span>: &amp;<span style="color: #d9bb80;">String</span><span style="color: #e68183;">)</span> -&gt; <span style="color: #d9bb80;">usize</span> <span style="color: #e68183;">{</span>
+    s.len<span style="color: #d9bb80;">()</span>
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org666917b">
+<h3 id="org666917b">Borrowing immutable by default</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim>  <span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    change<span style="color: #d9bb80;">(</span>&amp;s<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">change</span><span style="color: #e68183;">(</span><span style="color: #87c095; font-style: italic;">some_string</span>: &amp;<span style="color: #d9bb80;">String</span><span style="color: #e68183;">)</span> <span style="color: #e68183;">{</span>
+    some_string.push_str<span style="color: #d9bb80;">(</span><span style="color: #87af87;">", world"</span><span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+<p>
+Does not compile
+</p>
+
+</section>
+<section id="slide-orgada3ca1">
+<h3 id="orgada3ca1">Mutable references</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #e68183;">mut</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    change<span style="color: #d9bb80;">(</span>&amp;<span style="color: #e68183;">mut</span> s<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">change</span><span style="color: #e68183;">(</span><span style="color: #87c095; font-style: italic;">some_string</span>: &amp;<span style="color: #e68183;">mut</span> <span style="color: #d9bb80;">String</span><span style="color: #e68183;">)</span> <span style="color: #e68183;">{</span>
+    some_string.push_str<span style="color: #d9bb80;">(</span><span style="color: #87af87;">", world"</span><span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgd10688d">
+<h3 id="orgd10688d">Only one mutable reference</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #e68183;">mut</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">r1</span> = &amp;<span style="color: #e68183;">mut</span> s;
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">r2</span> = &amp;<span style="color: #e68183;">mut</span> s;
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">, </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, r1, r2<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+<p>
+Catch data race at compile time
+</p>
+
+</section>
+<section id="slide-orgedafeb9">
+<h3 id="orgedafeb9">Mixing mutable and immutable</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #e68183;">mut</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">r1</span> = &amp;s; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">no problem</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">r2</span> = &amp;s; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">no problem</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">r3</span> = &amp;<span style="color: #e68183;">mut</span> s; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">BIG PROBLEM</span>
+
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">, </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">, and </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, r1, r2, r3<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+<p>
+does not compile
+</p>
+
+</section>
+<section id="slide-org4552443">
+<h3 id="org4552443">Rustc smart boy</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #e68183;">mut</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">r1</span> = &amp;s; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">no problem</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">r2</span> = &amp;s; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">no problem</span>
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;"> and </span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, r1, r2<span style="color: #d9bb80;">)</span>;
+    <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">r1 and r2 are no longer used after this point</span>
+
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">r3</span> = &amp;<span style="color: #e68183;">mut</span> s; <span style="color: #5b5b5b;">// </span><span style="color: #5b5b5b;">no problem</span>
+    <span style="color: #e39b7b;">println!</span><span style="color: #d9bb80;">(</span><span style="color: #87af87;">"</span><span style="color: #87af87; font-style: italic;">{}</span><span style="color: #87af87;">"</span>, r3<span style="color: #d9bb80;">)</span>;
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+<p>
+compiles
+</p>
+
+<aside class="notes">
+<p>
+La notion de scope est un petit peu altérée ici.
+Le compilateur rustc est assez malin pour voir que
+r1 et r2 ne sont plus utilisés après le println!
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orga825e76">
+<h3 id="orga825e76">Dangling references</h3>
+<div class="org-src-container">
+
+<pre  class="src src-rust" ><code trim><span style="color: #e68183;">fn</span> <span style="color: #87c095;">main</span><span style="color: #e68183;">()</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">reference_to_nothing</span> = dangle<span style="color: #d9bb80;">()</span>;
+<span style="color: #e68183;">}</span>
+
+<span style="color: #e68183;">fn</span> <span style="color: #87c095;">dangle</span><span style="color: #e68183;">()</span> -&gt; &amp;<span style="color: #d9bb80;">String</span> <span style="color: #e68183;">{</span>
+    <span style="color: #e68183;">let</span> <span style="color: #87c095; font-style: italic;">s</span> = <span style="color: #d9bb80;">String</span>::from<span style="color: #d9bb80;">(</span><span style="color: #87af87;">"hello"</span><span style="color: #d9bb80;">)</span>;
+
+    &amp;s
+<span style="color: #e68183;">}</span>
+</code></pre>
+</div>
+
+<aside class="notes">
+<p>
+In Rust, the compiler guarantees that references will never be dangling references:
+if you have a reference to some data,
+the compiler will ensure that
+the data will not go out of scope before the reference to the data does.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orgc5cf262">
+<h3 id="orgc5cf262">The Rules of References</h3>
+<ul>
+<li>At any given time, you can have either one mutable reference or any number of immutable references.</li>
+<li>References must always be valid.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orga1e49c2">
+<h2 id="orga1e49c2">Live</h2>
+<div class="outline-text-2" id="text-orga1e49c2">
+</div>
+</section>
+<section id="slide-org22bc0b5">
+<h3 id="org22bc0b5">Coreutils / Findutils</h3>
+<p>
+<a href="https://github.com/uutils/coreutils">https://github.com/uutils/coreutils</a>
+<a href="https://github.com/uutils/findutils">https://github.com/uutils/findutils</a>
+</p>
+
+</section>
+<section id="slide-orgad48b00">
+<h3 id="orgad48b00">exa</h3>
+<p>
+<a href="https://github.com/ogham/exa">GitHub - ogham/exa: A modern replacement for ‘ls’.</a>
+</p>
+
+</section>
+<section id="slide-org32abddb">
+<h3 id="org32abddb">bat</h3>
+<p>
+<a href="https://github.com/sharkdp/bat">GitHub - sharkdp/bat: A cat(1) clone with wings.</a>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell" ><code trim>bat README.org
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org3c6d39c">
+<h3 id="org3c6d39c">fd</h3>
+<p>
+<a href="https://github.com/sharkdp/fd">GitHub - sharkdp/fd: A simple, fast and user-friendly alternative to 'find'</a>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell" ><code trim>fd README.org
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org12c5421">
+<h3 id="org12c5421">sd</h3>
+<p>
+<a href="https://github.com/chmln/sd">GitHub - chmln/sd: Intuitive find &amp; replace CLI (sed alternative)</a>
+</p>
+
+<p>
+find and replace
+faster than sed
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell" ><code trim>sd vim emacs sd.txt
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org4b82475">
+<h3 id="org4b82475">ripgrep</h3>
+<ul>
+<li><a href="https://github.com/BurntSushi/ripgrep">GitHub - BurntSushi/ripgrep</a></li>
+<li><a href="https://blog.burntsushi.net/ripgrep/">ripgrep is faster than *</a></li>
+
+</ul>
+
+<p>
+grep (global regular expression print) -&gt; ack -&gt; ag -&gt; pt -&gt; rg
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell" ><code trim>rg else
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org9017d1e">
+<h3 id="org9017d1e">grex</h3>
+
+<div id="org5ad061d" class="figure">
+<p><a href="images/grex.jpg" src="images/grex.jpg" alt="grex"><img src="images/grex.jpg" alt="grex" /></a>
+</p>
+</div>
+
+</section>
+<section id="slide-org991401a">
+<h3 id="org991401a">grex</h3>
+<div class="org-src-container">
+
+<pre  class="src src-shell" ><code trim>grex <span style="color: #87af87;">"Hello world"</span> <span style="color: #87af87;">"Hello Alyra"</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org3fb5f70">
+<h3 id="org3fb5f70">nushell</h3>
+<ul>
+<li><a href="https://www.nushell.sh/">https://www.nushell.sh/</a></li>
+<li><a href="https://github.com/nushell/nushell">GitHub - nushell/nushell: A new type of shell</a></li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell" ><code trim>ls | where size &gt; 10kb | get name
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-shell" ><code trim>sys | get disks | select device total | to json
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgb3288be">
+<h3 id="orgb3288be">Alacritty</h3>
+<p>
+<a href="https://github.com/alacritty/alacritty">GitHub - alacritty: cross-platform, OpenGL terminal emulator</a>
+</p>
+
+</section>
+<section id="slide-orgaba52f3">
+<h3 id="orgaba52f3">Tree-sitter</h3>
+<ul>
+<li><a href="https://tree-sitter.github.io/tree-sitter/">Tree-sitter｜Introduction</a></li>
+<li><a href="https://github.com/tree-sitter/tree-sitter">Github</a></li>
+<li><a href="https://www.youtube.com/watch?v=Jes3bD6P0To">Strange Loop talk</a></li>
+
+</ul>
+
+</section>
+<section id="slide-org90e5442">
+<h3 id="org90e5442">Pijul</h3>
+<p>
+<a href="https://pijul.org/">https://pijul.org/</a>
+</p>
+
+<p>
+DVCS  (distributed version control system) based on a sound theory of patches.
+</p>
+
+</section>
+<section id="slide-orga8dd7f8">
+<h3 id="orga8dd7f8">Scryer Prolog</h3>
+<p>
+<a href="https://github.com/mthom/scryer-prolog">GitHub - mthom/scryer-prolog</a>
+A modern Prolog implementation written mostly in Rust. 
+</p>
+
+</section>
+<section id="slide-orgaa8a454">
+<h3 id="orgaa8a454">Redox OS</h3>
+<p>
+<a href="https://www.redox-os.org/">Redox - Your Next(Gen) OS</a>
+</p>
+
+</section>
+<section id="slide-org34e8e7f">
+<h3 id="org34e8e7f">Fe</h3>
+<p>
+<a href="https://github.com/ethereum/fe">GitHub - fe: smart contract language for Ethereum</a>
+</p>
+
+<p>
+Inspired by python and rust, made in rust.
+</p>
+
+</section>
+<section id="slide-org32f0e32">
+<h3 id="org32f0e32">Fe</h3>
+<div class="org-src-container">
+
+<pre  class="src src-fe" ><code trim>type BookMsg = bytes[100]
+
+contract GuestBook:
+    pub guest_book: Map&lt;address, BookMsg&gt;
+
+    event Signed:
+	book_msg: BookMsg
+
+    pub def sign(book_msg: BookMsg):
+	self.guest_book[msg.sender] = book_msg
+
+	emit Signed(book_msg=book_msg)
+
+    pub def get_msg(addr: address) -&gt; BookMsg:
+	return self.guest_book[addr].to_mem()
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org87d13ee">
+<h3 id="org87d13ee">Web</h3>
+<ul>
+<li><a href="https://actix.rs/">Actix Web</a></li>
+<li><a href="https://github.com/actix/actix">GitHub - actix/actix: Actor framework for Rust</a></li>
+
+<li><a href="https://hyper.rs/">https://hyper.rs/</a></li>
+<li><a href="https://github.com/hyperium/hyper">GitHub - hyperium/hyper: An HTTP library for Rust</a></li>
+
+</ul>
+
+
+</section>
+<section id="slide-org8fe321f">
+<h3 id="org8fe321f">Http</h3>
+
+</section>
+<section id="slide-org309c2a8">
+<h3 id="org309c2a8">Maltimedia</h3>
+<ul>
+<li><a href="https://github.com/xiph/rav1e">GitHub - xiph/rav1e: The fastest and safest AV1 encoder.</a></li>
+<li><a href="https://rustav.org/">https://rustav.org/</a></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgac3172a">
+<h2 id="orgac3172a">WebAssembly</h2>
+<div class="outline-text-2" id="text-orgac3172a">
+</div>
+</section>
+<section id="slide-org02e66a7">
+<h3 id="org02e66a7">What the what</h3>
+<p>
+<a href="https://webassembly.org/">https://webassembly.org/</a>
+</p>
+
+<p>
+WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine.
+Wasm is designed as a portable compilation target for programming languages,
+enabling deployment on the web for client and server applications.
+</p>
+
+</section>
+<section id="slide-org9d86c0c">
+<h3 id="org9d86c0c">Rust and WebAssembly</h3>
+<p>
+<a href="https://rustwasm.github.io/book/">Introduction - Rust and WebAssembly</a>
+<a href="https://www.youtube.com/watch?v=nvLw_XKlZaU">InfoQ TechTalk (yt)</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org079a8af">
+<h2 id="org079a8af">Improvement of the language</h2>
+<p>
+<a href="https://rust-lang.github.io/rfcs/">Introduction - The Rust RFC Book</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb6ce56f">
+<h2 id="orgb6ce56f">Resources</h2>
+<ul>
+<li><a href="https://doc.rust-lang.org/book/">The Rust Programming Language - Rust Book</a></li>
+<li><a href="https://doc.rust-lang.org/stable/rust-by-example/">Rust By Example</a></li>
+<li><a href="https://github.com/rust-lang/rustlings/">GitHub - rust-lang/rustlings</a></li>
+<li><a href="https://exercism.io/tracks/rust">Rust | Exercism</a></li>
+<li><a href="https://chrismorgan.info/blog/rust-ownership-the-hard-way/">Rust ownership, the hard way - an article by Chris Morgan</a></li>
+<li><a href="https://zaiste.net/posts/shell-commands-rust/">Rewritten in Rust: Modern Alternatives of Command-Line Tools</a></li>
+<li><a href="https://github.com/TaKO8Ki/awesome-alternatives-in-rust">GitHub - TaKO8Ki/awesome-alternatives-in-rust</a></li>
+<li><a href="https://github.com/rust-unofficial/awesome-rust">GitHub - rust-unofficial/awesome-rust</a></li>
+
+</ul>
+
+<p>
+Questions ?
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/markdown/markdown.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown,RevealZoom,RevealNotes],
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+]
+});
+
+
+</script>
+</body>
+</html>
